@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Crestify by crestify</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Crestify</h1>
+      <h2 class="project-tagline">Intelligent Bookmarking</h2>
+      <a href="https://github.com/crestify/crestify" class="btn">View on GitHub</a>
+      <a href="https://github.com/crestify/crestify/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/crestify/crestify/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="crestify" class="anchor" href="#crestify" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Crestify</h1>
+
+<h4>
+<a id="intelligent-bookmarking" class="anchor" href="#intelligent-bookmarking" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Intelligent Bookmarking</h4>
+
+<p><img src="https://i.imgur.com/3Qtdzdy.png" alt=""></p>
+
+<h3>
+<a id="about" class="anchor" href="#about" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>About</h3>
+
+<p>Crestify is a self-hosted bookmarking service that does it all. There are a lot of bookmarking services out there today, and all of them do one thing or the other. With Crestify, you get the whole package. </p>
+
+<h4>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>1 click bookmarking with extensions for Chrome, Firefox, and Opera</li>
+<li>An API so you can make your own extensions</li>
+<li>Archiving to save bookmarks from <a href="http://www.gwern.net/Archiving%20URLs#link-rot">link rot</a>
+</li>
+<li>Filtering bookmarks by titles, descriptions, urls, tags, or even the entire text of the page</li>
+<li>Cleaning up articles to make them easier to read (à la Readability)</li>
+<li>Public links you can share or cite so you don't end up linking to dead pages</li>
+<li>Saving the open tabs from your browser for coming back to them later</li>
+<li>Categorizing bookmarks via tags</li>
+<li>Context filtering so you can get back into the flow of how you came across a particular page</li>
+<li>Importing bookmarks from your current browser, or your Pocket, Instapaper, Readability &amp; Pinboard accounts</li>
+</ul>
+
+<p>And best of all, Crestify is fully open source, so you can host your own instance, modify Crestify to your heart's content, and generally do whatever you like with it! </p>
+
+<h3>
+<a id="quick-start" class="anchor" href="#quick-start" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Quick Start</h3>
+
+<p>To get started with Crestify, try out our Vagrant image!</p>
+
+<div class="highlight highlight-source-shell"><pre>$ git clone https://github.com/crestify/crestify.git <span class="pl-k">&amp;&amp;</span> <span class="pl-c1">cd</span> crestify
+$ pip install fabric
+$ fabric vagrant</pre></div>
+
+<p>That's it! Open your browser, head to <code>http://localhost:4545</code>, create an account, and you'll be good to go!</p>
+
+<p>To get the latest updates to Crestify, run:</p>
+
+<div class="highlight highlight-source-shell"><pre>fab update</pre></div>
+
+<p>And the latest updates from the master branch will be applied.</p>
+
+<p>For manual install, see <code>INSTALL.md</code>.</p>
+
+<h3>
+<a id="tech-stack" class="anchor" href="#tech-stack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Tech Stack</h3>
+
+<p>Crestify is a Flask-based application written in Python 2.</p>
+
+<ul>
+<li>Languages: Python 2 &amp; Javascript (Extensions)</li>
+<li>Framework: Flask</li>
+<li>Database: Crestify uses PostgreSQL as its database, and takes advantage of the full-text search capabilities of Postgres. Redis is used as a temp database for holding incoming tab saves</li>
+<li>Message Queue: RabbitMQ is used as a message queue for asynchronously-run tasks related to bookmarking</li>
+<li>Browser: Crestify uses PhantomJS to generate the DOM like a browser does for full-text extraction and readability view generation</li>
+</ul>
+
+<h3>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>License</h3>
+
+<p>Crestify is BSD licensed. See <code>LICENSE</code> for more details.</p>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/crestify/crestify">Crestify</a> is maintained by <a href="https://github.com/crestify">crestify</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
