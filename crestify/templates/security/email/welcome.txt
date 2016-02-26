@@ -1,0 +1,13 @@
+{% if security.confirmable %}
+Hey there! Welcome to Crestify!
+
+Before you can start using your account, we need to confirm your email.
+
+We may need to send you critical information about our service and it is important that we have an accurate email address.
+
+{{ confirmation_link }}
+
+Use the "Take the Tour" button for a walk-through of Crestify. If you need any assistance, use the help icon on the bottom right of the screen.
+
+— The Crestify Team
+{% endif %}

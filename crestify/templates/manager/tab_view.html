@@ -1,0 +1,27 @@
+{% extends "manager/base.html" %}
+
+{% block title %}
+{{ tab.title }} - Tabs
+{% endblock %}
+
+{% block content %}
+
+<h3 class="page-header">{{ tab.title }} - <a href="#" onclick="openTabs()" title="Opens all the tabs. Requires disabled popup blocker.">Open All Tabs <i class="fa fa-external-link"></i></a></h3>
+<div class="list-group bookmark-list">
+	{% for bookmark in tab.tabs %}
+			<div class="list-group-item">
+				<a href="{{ bookmark.url }}" title="{{bookmark.title|e}}" target="_blank">
+					{{ bookmark.title|truncate(90,True) }}
+				</a>
+				&nbsp;
+			</div>
+		{% endfor %}
+    </div>
+	<script>
+	function openTabs() {
+		{% for bookmark in tab.tabs %}
+			window.open('{{bookmark.url}}');
+		{% endfor %}
+	}
+</script>
+{% endblock %}

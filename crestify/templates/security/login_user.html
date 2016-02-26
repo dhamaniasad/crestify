@@ -1,0 +1,45 @@
+{% extends "security/base.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block content %}
+<div id="login-overlay" class="modal-dialog modal-sm">
+	<div class="modal-content">
+		<div class="modal-header">
+			<a href="/" type="button" class="btn btn-default btn-sm pull-right">Home</a>
+			<h4 class="modal-title" id="myModalLabel">Login</h4>
+		</div>
+		<div class="modal-body">
+			<form id="login_user_form" name="login_user_form" method="POST"
+						     action="{{ url_for_security('login') }}">
+				{{ login_user_form.hidden_tag() }}
+				<div class="form-group">
+					{{ login_user_form.email.label(class_="control-label") }}
+					{{ render_field(login_user_form.email, class_="form-control",
+					required="true", autofocus="true",
+					title="Please enter you email address") }}
+				</div>
+				<div class="form-group">
+					{{ login_user_form.password.label(class_="control-label") }}
+					{{ render_field(login_user_form.password, class_="form-control",
+					required="true", title="Please enter you password") }}
+				</div>
+				<div id="loginErrorMsg" class="alert alert-error hide">Wrong username of password</div>
+				<div class="form-group">
+					{{ login_user_form.remember }}
+					{{ login_user_form.remember.label }}
+				</div>
+				{{ render_field(login_user_form.next) }}
+				<div class="form-group">
+					{% include "security/_messages.html" %}
+				</div>
+				<button type="submit" class="btn btn-success btn-block">Login</button>
+				{% if security.recoverable %}
+				<a href="{{ url_for_security('forgot_password') }}" class="btn btn-default btn-block">
+					Forgot Password?
+				</a>
+				{% endif %}
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock %}

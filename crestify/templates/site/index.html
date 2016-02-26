@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing/css/bootstrap.min.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:400,300,100,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing/css/style.css') }}">
+    <title>Crestify</title>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/evil-icons/1.7.2/evil-icons.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/evil-icons/1.7.2/evil-icons.min.js"></script>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="covervid-wrapper">
+            <video class="covervid-video" autoplay loop
+                   poster="{{ url_for('static', filename='landing/vids/banner/Sail-Away.jpg') }}">
+                <source src="{{ url_for('static', filename='landing/vids/banner/Sail-Away.webm') }}" type="video/webm">
+                <source src="{{ url_for('static', filename='landing/vids/banner/Sail-Away.mp4') }}" type="video/mp4">
+            </video>
+            <div class="masthead-overlay"></div>
+            <a href='/login' id="login" class="btn btn-default" type="submit">Login</a>
+
+            <div class="parent">
+                <h1>crestify
+            <span>
+                INTELLIGENT BOOKMARKING
+            </span>
+                    <button id='jtw' class="btn btn-default join-waitlist" type="submit">Register</button>
+                </h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row highlights">
+        <div class="col-md-4">
+            <div data-icon="ei-pointer" data-size="l" class="foo"></div>
+            <div class="content-title">Save with a click</div>
+            <div class="content-text">Bookmark a page with a single click, and we will save multiple copies of it so you
+                don't lose access to the content.
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div data-icon="ei-navicon" data-size="l" class="foo"></div>
+            <div class="content-title">Read with comfort</div>
+            <div class="content-text">Web pages are cluttered with menus, ads, comments, etc. We extract the main
+                content from a page so you can read with ease.
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div data-icon="ei-search" data-size="l" class="foo"></div>
+            <div class="content-title">Find with ease</div>
+            <div class="content-text">Finding your bookmarks again can be tough. Powerful search, tagging, and context
+                filtering features make it easy.
+            </div>
+        </div>
+    </div>
+</div>
+<div class="blackbg">
+    <div class="container">
+        <div class="row screenshot">
+            <img src="{{ url_for('static', filename='landing/img/screenshot.png') }}"
+                 class="img-responsive center-block">
+        </div>
+        <div class="row reasons">
+            <h2>A few more reasons to get Crestify</h2>
+
+            <div class="col-md-3">
+                <div data-icon="ei-share-google" data-size="m" class="foo"></div>
+                <div class="reasons-title">Sharing</div>
+                <div class="reasons-text">Share a bookmark with your friends, or use it as a <a
+                        href="https://www.crestify.com/pub/32791" target="_blank">citation</a> that won't disappear.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div data-icon="ei-archive" data-size="m" class="foo"></div>
+                <div class="reasons-title">Tab Saving</div>
+                <div class="reasons-text">Sometimes, bookmarking individual pages isn't enough. Reserve your browser
+                    state with tab saving.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div data-icon="ei-arrow-down" data-size="m" class="foo"></div>
+                <div class="reasons-title">Importing</div>
+                <div class="reasons-text">Import bookmarks from your browser, or from Pocket, Instapaper, Readability &
+                    Pinboard.
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div data-icon="ei-gear" data-size="m" class="foo"></div>
+                <div class="reasons-title">Extensions</div>
+                <div class="reasons-text">Add the Crestify extension to Chrome, Opera, or Firefox, and bookmark pages
+                    with 1 click.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row cta-bottom">
+        <div class="col-md-6">
+            <div class="cta-bottom-text">Improve your browsing experience!</div>
+        </div>
+        <div class="col-md-6 text-center">
+            <button class="btn btn-default join-waitlist jtw-bottom" type="submit">Register</button>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static', filename='landing/js/jquery-2.1.4.min.js') }}" type="text/javascript"></script>
+<script type="text/javascript">
+    $(".join-waitlist").click(function () {
+        window.location.href = window.location.protocol + "//" + window.location.host + "/register";
+    });
+</script>
+<script src="{{ url_for('static', filename='landing/js/covervid.min.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='landing/js/scripts.js') }}" type="text/javascript"></script>
+</body>
+</html>

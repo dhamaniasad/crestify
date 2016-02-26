@@ -1,0 +1,59 @@
+{% extends "manager/base.html" %}
+{% block head %}
+    {{ super() }}
+    <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.0/sweetalert.min.css">
+{% endblock %}
+{% block title %}
+    Tabs
+{% endblock %}
+
+{% block content %}
+
+    {% import "_macros.html" as macros %}
+
+    <h3 class="page-header tab-set-count">Found {{ pagination.total }} tab sets</h3>
+    <div class="list-group bookmark-list">
+        {% for bookmark in pagination.items %}
+            <div class="list-group-item">
+				<span class="text-muted pull-right" id="{{ bookmark.id }}">
+					<script>
+                        $("span#{{bookmark.id}}").attr("title", moment("{{bookmark.added_on.strftime('%Y-%m-%dT%H:%M:%S+00:00')}}").format('lll'))
+                    </script>
+					<script>
+                        document.write(moment("{{bookmark.added_on.strftime('%Y-%m-%dT%H:%M:%S+00:00')}}").fromNow())
+                    </script>
+					&nbsp;
+				</span>
+                <a id="tabset{{ bookmark.id }}" class="editable-tabs tabs-link" data-type="text" data-pk="{{ bookmark.id }}" data-title="Enter name" style="color:black;" href="{{ url_for('tabs_set', tab_id=bookmark.id) }}" title="{{bookmark.title|e}}">
+                    {{ bookmark.title|truncate(90,True) }}
+                </a>
+                &nbsp;
+                <br><div class="actionButtons">
+                <a class="text-muted toggle-editing" href="#"><i class="fa fa-pencil-square-o"></i> Edit</a>
+                <span>
+                    |
+                </span>
+                <a class="text-muted remove-tabset-button" href="#"><i class="fa fa-trash"></i> Remove</a>
+            </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="pagination">
+                {{ macros.pagination_widget(pagination, '.bookmark_list')}}
+            </div>
+        </div>
+    </div>
+    <style>
+        a.editable-click.editable-disabled:hover {
+            color: #585858;
+            cursor: pointer;
+            border-bottom: 1px solid;
+        }
+    </style>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/tabs_list.js') }}"></script>
+{% endblock %}

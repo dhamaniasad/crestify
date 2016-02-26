@@ -1,0 +1,37 @@
+{% extends "manager/base.html" %}
+
+{% block title %}
+Read {{ title }}
+{% endblock %}
+
+{% block content %}
+<script>
+$(window).load(function() {
+    $("img").each(function(image) {
+        console.log(this.width);
+        var w = this.width;
+        if (w > 250) {
+            $(this).addClass("stretched-image");
+        }
+    });
+});
+</script>
+	<div class="reader">
+		<h1>{{ title }}</h1>
+		<p><small><i class="fa fa-clock-o"></i> <span class="eta"></span> | <span><a href="{{ link }}" target="_blank">Original</a></span></small></p>
+		<hr>
+		{{ readable_html }}
+	</div>
+    <script src="{{ url_for('static', filename='js/scrolline.js') }}"></script>
+    <script>
+$.scrolline({
+    reverse : false,
+    position : 'top',
+    frontColor : '#f1c40f',
+    weight : 5,
+    opacity: 0.7
+});
+</script>
+    <script src="{{ url_for('static', filename='js/readingTime.min.js') }}"></script>
+    <script>$('.reader').readingTime();</script>
+{% endblock %}

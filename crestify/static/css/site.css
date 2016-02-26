@@ -1,0 +1,82 @@
+/*
+ * This will truncate any text beyond one line and replace it with an ellipsis.
+ *
+ */
+.truncate
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+} 
+
+/*
+ * Styles for better readability in bookmark_lists
+ */
+div.bookmark-list > div:nth-child(even) {
+	background-color:#EDEDED;
+}
+
+/*
+ * Styles for the Readability feature
+ *
+ */
+@import url(http://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+.reader 
+{
+	background-color: #ffffff;
+	font-size: large;
+	font-family: "droid-sans";
+	padding: 20px;
+    margin-right: 5%;
+    word-wrap: break-word;
+    overflow-y:hidden;
+	overflow-x:hidden;
+}
+
+.reader > h1:first-child
+{
+	font-family: inherit;
+}
+.reader img {
+    	max-width: 100% !important; 
+		display:inline-block !important; 
+		height: auto !important;
+		margin-left: auto !important;
+		margin-right: auto !important;
+		padding: 1px;
+        border: 1px solid lightgrey;
+    }
+
+.reader td {
+	padding-top: 0.2em !important;
+	padding-right: 0.4em !important;
+}
+
+.stretched-image {
+	width: 100%;
+}
+
+.highlight {
+    background-color: LightYellow !important;
+}
+
+/*
+ * Styles for the on hover link thing
+ *
+ */
+
+.bookmark-list > div > div > a.bookmark-link
+{
+	visibility:hidden;
+}
+
+.bookmark-list > div:hover > div > a.bookmark-link
+{
+	visibility:visible;
+}
+
+
+.page-header-marginless
+{
+	margin: 0px;
+}

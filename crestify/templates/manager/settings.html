@@ -1,0 +1,174 @@
+{% extends "manager/base.html" %}
+{% block title %} Settings {% endblock %}
+{% block head %}
+{{ super() }}
+	<script type="text/javascript" src="{{ url_for('static', filename='js/clipboard.min.js') }}"></script>
+<link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/afhekhbgacigmlndepbnppnpbhgdalfp">
+{% endblock %}
+{% block content %}
+	<h3 class="page-header">Settings</h3>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Bookmarks per Page</h3>
+		</div>
+		<div class="panel-body">
+			<p>Please select how many bookmarks do you want to display per page</p>
+			<form method="POST" action="{{ url_for('bookmarks_per_page') }}" class="form-horizontal">
+				{{ per_page.csrf_token }}
+				<div class="form-group">
+					{{ per_page.bookmarks_per_page.label( class_="control-label col-sm-2") }}
+					<div class="col-sm-10 col-md-6">
+						{{ per_page.bookmarks_per_page( class_="form-control", required=true) }}
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-sm-offset-2 col-sm-10">
+						<button class="btn btn-primary">Save</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">Import Existing Bookmark File</h3>
+		</div>
+		<div class="panel-body">
+			<p>You can import your existing bookmarks from your browser in the <a href="https://msdn.microsoft.com/en-us/library/aa753582(VS.85).aspx">Netscape Bookmark File Format</a>, or from Pocket, Instapaper, Readability or Pinboard.
+		</p>
+			<p>Formats accepted:</p>
+			<p>Browser - Netscape(HTML)</p>
+			<p><a rel="nofollow" href="https://www.instapaper.com/user">Instapaper</a> - HTML</p>
+			<p><a rel="nofollow" href="https://pinboard.in/export/">Pinboard</a> - JSON</p>
+			<p><a rel="nofollow" href="https://getpocket.com/export">Pocket</a> - HTML</p>
+			<p><a rel="nofollow" href="https://readability.com/tools/">Readability</a> - JSON</p>
+		<form method="POST" action="{{ url_for('import_bookmark_file') }}" enctype="multipart/form-data" class="form-horizontal">
+			{{ import_form.csrf_token }}
+			<div class="form-group">
+				{{ import_form.import_file.label( class_="control-label col-sm-2") }}
+				<div class="col-sm-10 col-md-6">
+					{{ import_form.import_file( class_="form-control", required=true)}}
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+					<button class="btn btn-primary">Import File</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title">Secret API Key</h3>
+	</div>
+	<div class="panel-body">
+		<p>Your secret API key is mentioned below. Do not disclose this key to other people.
+		You can paste this into applications that access Crestify from your devices and browser extensions.</p>
+		<form method="POST" action="{{ url_for('regenerate_api_key') }}" class="form-horizontal">
+			{{ regenerate_api_key_form.csrf_token }}
+			<div class="form-group">
+				<label class="control-label col-sm-2">Email Address</label>
+				<div class="col-sm-10 col-md-6">
+					<div class="input-group">
+					<input id="userEmailAddress" class="form-control" required=true readonly="true" value="{{ user_email }}"/>
+						<span class="input-group-btn">
+						  <button class="btn btn-success copybtn" type="button" data-clipboard-target="#userEmailAddress">
+							  <i class="fa fa-clipboard"></i>
+						  </button>
+						</span>
+				</div>
+					</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label col-sm-2">Secret API Key</label>
+				<div class="col-sm-10 col-md-6">
+					<div class="input-group">
+						<input id="userApiKey" class="form-control" required=true readonly="true" value="{{ user_api_key }}"/>
+						<span class="input-group-btn">
+						  <button class="btn btn-success copybtn" type="button" data-clipboard-target="#userApiKey">
+							  <i class="fa fa-clipboard"></i>
+						  </button>
+						</span>
+					</div>
+				</div>
+			</div>
+			<p>If you feel that your current key is compromised, you can regenerate a new one by clicking this button:</p>
+			<div class="form-group">
+				<div class="col-sm-offset-2 col-sm-10">
+				<button class="btn btn-primary">Regenerate Key</button>
+			</div>
+		</div>
+	</form>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+	<h3 class="panel-title">Change Password</h3>
+</div>
+<div class="panel-body">
+	<p><a href="{{ url_for_security('change_password') }}">Click Here</a> to change your password.</p>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+	<h3 class="panel-title">Browser Extensions</h3>
+</div>
+<div class="panel-body">
+	<button class="btn btn-primary" id="chrome-install-button" onclick="chrome.webstore.install()">Install Chrome extension</button><hr>
+	<a class="btn btn-primary" role="button" target="_blank" href="https://addons.mozilla.org/en-US/firefox/addon/crestify/">Install Firefox extension</a><hr>
+	<a class="btn btn-primary" role="button" target="_blank" href="https://addons.opera.com/en/extensions/details/crestify/?display=en">Install Opera Extension</a>
+</div>
+</div>
+<div class="panel panel-default">
+<div class="panel-heading">
+	<h3 class="panel-title">Bookmarklet</h3>
+</div>
+<div class="panel-body">
+	<p>Drag this button to your bookmark bar.</p>
+	<a id="bookmarkletBtn" class="btn btn-primary"
+		title="Drag this to your bookmark bar!"
+		href='javascript:(function post(path ) {
+		params = {
+		"main_url": window.location
+		};
+		var form = document.createElement("form");
+		form.setAttribute("method", "POST");
+		form.setAttribute("action", "https://www.crestify.com/manager/bookmark/new");
+		form.setAttribute("target", "_blank");
+		for(var key in params) {
+		if(params.hasOwnProperty(key)) {
+		var hiddenField = document.createElement("input");
+		hiddenField.setAttribute("type", "hidden");
+		hiddenField.setAttribute("name", key);
+		hiddenField.setAttribute("value", params[key]);
+		form.appendChild(hiddenField);
+		}
+		}
+		document.body.appendChild(form);
+		form.submit();
+		document.body.removeChild(form);
+		}())'>
+		Add to Crestify
+	</a><hr>
+	<p>Or copy the text below and paste it in the URL field for a bookmark.</p>
+	<p>Then, to bookmark a page, click the bookmarklet.</p>
+	<div class="col-sm-10 col-md-6">
+<div class="input-group">
+	<input id="bookmarklet" class="form-control" value="javascript: $('#bookmarkletBtn').attr('href');"/>
+	<script type="text/javascript">
+		$('#bookmarklet').attr('value', $('#bookmarkletBtn').attr('href'));
+	</script>
+		<span class="input-group-btn">
+		  <button class="btn btn-success copybtn" type="button" data-clipboard-target="#bookmarklet">
+			  <i class="fa fa-clipboard"></i>
+		  </button>
+		</span>
+		</div>
+</div>
+</div>
+</div>
+	<script type="text/javascript">
+	new Clipboard('.copybtn');
+	</script>
+{% endblock %}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <!-- Bootswatch Cosmo CSS -->
+        <link href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.0/flatly/bootstrap.min.css" rel="stylesheet"
+              media="screen">
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <!-- Bootstrap compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.11.2/css/selectize.bootstrap3.min.css"
+              rel="stylesheet"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.11.2/js/standalone/selectize.min.js"></script>
+        <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <script src="//use.typekit.net/xit4ufx.js"></script>
+        <script>try {
+            Typekit.load();
+        } catch (e) {
+        }</script>
+        {% assets output="gen/packed.css", "css/site.css" %}
+            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
+        {% endassets %}
+
+        <title>
+            {% block title %} {{ title }} {% endblock %} - Crestify
+        </title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/hopscotch.min.css') }}">
+    {% endblock %}
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <h3 class="page-header" id="logo_text"><strong>Crestify</strong>
+                <small>βeta</small>
+            </h3>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        {{ current_user.first_name }}
+                    </h4>
+                </div>
+                <div class="list-group">
+                    <a href='#' class="list-group-item" data-toggle="modal" data-target="#add_bookmark_modal"
+                       id="new_bmark_btn">
+                        <i class="fa fa-plus"></i> New Bookmark
+                    </a>
+                    <a href="{{ url_for('manager_home') }}" class="list-group-item">
+                        <i class="fa fa-list"></i> All Bookmarks
+                    </a>
+                    <a href="{{ url_for('tabs_list') }}" class="list-group-item" id="view_tabs_btn">
+                        <i class="fa fa-folder"></i> All Tabs
+                    </a>
+                    <a href="#" class="list-group-item" id="start_tour" onclick="startTour()">
+                        <i class="fa fa-info"></i> Take the Tour
+                    </a>
+                    <a id="settings_btn" href="{{ url_for('settings') }}" class="list-group-item">
+                        <i class="fa fa-cog"></i> Settings
+                    </a>
+                    <a href="{{ url_for_security('logout') }}" class="list-group-item">
+                        <i class="fa fa-sign-out"></i> Logout
+                    </a>
+                </div>
+            </div>
+            {% block menus %}
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title" id="tags_panel_title">Tags</h3>
+                    </div>
+                    <div class="panel-body">
+                    {% if user_tags is not None %}
+                        {% for tag in user_tags %}
+                            {% if request.args.get('tags') != None %}
+                                <a class="text-muted"
+                                   href="{{ request.full_path + "&tags=" + tag['text'].decode('utf-8') }}">{{ tag['text'].decode('utf-8') }}</a>
+                                &nbsp;
+                            {% else %}
+                                <a class="text-muted"
+                                   href="{{ url_for('bookmark_list', tags=tag['text'].decode('utf-8')) }}">{{ tag['text'].decode('utf-8') }}
+                                    <span class="label label-default">{{ tag['count'] }}</span></a>
+                                &nbsp;
+                            {% endif %}
+                            <br />
+                        {% endfor %}
+                    {% endif %}
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+        <div class="col-md-9">
+            {% block content %}
+                {{ content }}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+<!-- Add Bookmark Modal -->
+<div class="modal fade" id="add_bookmark_modal" tabindex="-1" role="dialog" aria-labelledby="add_bookmark_modal_label"
+     aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="add_bookmark_modal_label">Add Bookmark</h4>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="/manager/bookmark/new">
+                    <div class="form-group">
+                        {{ add_form.main_url.label }} {{ add_form.main_url(size=100, class_="form-control", autofocus=true) }}
+                        {{ add_form.tags.label }}{{ add_form.tags(size=100, class_="form-control") }}
+                    </div>
+                    <script>
+                        $('#tags').selectize({
+                            plugins: ['remove_button', 'restore_on_backspace'],
+                            delimiter: ',',
+                            options: {% if user_tags %}{{ user_tags|safe }}{% else %}[]{% endif %},
+                            persist: false,
+                            create: function (input) {
+                                return {
+                                    value: input,
+                                    text: input
+                                }
+                            }
+                        });
+                    </script>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+                <script>
+                    $('#add').on('shown.bs.modal', function () {
+                        $('#main_url').focus()
+                    })
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    // Include the UserVoice JavaScript SDK (only needed once on a page)
+    UserVoice = window.UserVoice || [];
+    (function () {
+        var uv = document.createElement('script');
+        uv.type = 'text/javascript';
+        uv.async = true;
+        uv.src = '//widget.uservoice.com/F7ugDwGfVJ7A02UquiBkYg.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(uv, s)
+    })();
+
+    //
+    // UserVoice Javascript SDK developer documentation:
+    // https://www.uservoice.com/o/javascript-sdk
+    //
+
+    // Set colors
+    UserVoice.push(['set', {
+        accent_color: '#448dd6',
+        trigger_color: 'white',
+        trigger_background_color: 'rgba(46, 49, 51, 0.6)'
+    }]);
+
+    // Identify the user and pass traits
+    // To enable, replace sample data with actual user traits and uncomment the line
+    UserVoice.push(['identify', {
+        email: '{{ current_user.email }}', // User’s email address
+        //name:       'John Doe', // User’s real name
+        //created_at: 1364406966, // Unix timestamp for the date the user signed up
+        //id:         123, // Optional: Unique id of the user (if set, this should not change)
+        //type:       'Owner', // Optional: segment your users by type
+        //account: {
+        //  id:           123, // Optional: associate multiple users with a single account
+        //  name:         'Acme, Co.', // Account name
+        //  created_at:   1364406966, // Unix timestamp for the date the account was created
+        //  monthly_rate: 9.99, // Decimal; monthly rate of the account
+        //  ltv:          1495.00, // Decimal; lifetime value of the account
+        //  plan:         'Enhanced' // Plan name for the account
+        //}
+    }]);
+
+    // Add default trigger to the bottom-right corner of the window:
+    UserVoice.push(['addTrigger', {mode: 'contact', trigger_position: 'bottom-right'}]);
+
+    // Or, use your own custom trigger:
+    //UserVoice.push(['addTrigger', '#id', { mode: 'contact' }]);
+
+    // Autoprompt for Satisfaction and SmartVote (only displayed under certain conditions)
+    UserVoice.push(['autoprompt', {}]);
+</script>
+<script> // Scrolls to highlighted bookmark
+$(function () {
+    var target = $(".highlight");
+    if (target.length !== 0) {
+        $('html, body').animate({
+            scrollTop: $(target).offset().top
+        });
+    }
+    else {
+
+    }
+});
+</script>
+<script src="{{ url_for('static', filename='js/hopscotch.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tour_hs.js') }}"></script>
+<script>
+    function startTour() {
+        if (document.location.pathname === "/manager/bookmark") {
+            hopscotch.startTour(tour);
+        }
+        else {
+            window.location.href = "/manager/bookmark?tour=1";
+        }
+    }
+    if (document.location.search === "?tour=1") {
+        hopscotch.startTour(tour);
+    }
+</script>
+</body>
+</html>

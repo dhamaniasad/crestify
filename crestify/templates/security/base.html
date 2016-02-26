@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<!-- Bootswatch Cosmo CSS -->
+		<link href="//cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.0/flatly/bootstrap.min.css" rel="stylesheet" media="screen">
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+		<!-- Bootstrap compiled and minified JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+		<!-- Fonts Awesome -->
+		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+		<title>Crestify</title>
+	</head>
+	<body>
+		<div class="container">
+			<!-- main_content_block -->
+			{% block content %}
+			{{ content }}
+			{% endblock %}
+			<!-- /main_content_block -->
+		</div>
+	</body>
+</html>

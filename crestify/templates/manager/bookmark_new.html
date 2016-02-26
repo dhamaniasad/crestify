@@ -1,0 +1,53 @@
+{% extends "manager/base.html" %}
+
+{% block title %}
+Add Bookmark
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<h1 class="page-header">New Bookmark</h1>
+			<form method="POST" action="/manager/bookmark/new">
+				<div class="form-group">
+					{{ form.title.label }} {{ form.title(size=100, class_="form-control", autofocus=true) }}
+				</div>
+				<div class="form-group">
+					{{ form.main_url.label }} {{ form.main_url(size=100, class_="form-control", required=true) }}
+				</div>
+				<div class="form-group">
+					{{ form.description.label }} {{ form.description(size=100, class_="form-control") }}
+				</div>
+				<div class="form-group">
+					{{ form.tags.label }} {{ form.tags(size=100, class_="form-control") }}
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary">Add Bookmark</button>
+					<a href="/manager" class="btn btn-link">Cancel</a>
+				</div>
+			</div>
+			<script>
+			$('#tags').selectize({
+plugins: ['remove_button','restore_on_backspace'],
+delimiter: ',',
+persist: false,
+create: function(input) {
+	return {
+		value: input,
+		text: input
+	}
+}
+});
+			</script>
+			</form>
+			<ul>
+				{% for error in form.errors %}
+				<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endblock %}

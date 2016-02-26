@@ -1,0 +1,30 @@
+{% extends "manager/base.html" %}
+
+{% block title %}
+New Tab Set
+{% endblock %}
+
+{% block content %}
+
+{% import "_macros.html" as macros %}
+
+    <div class="container">
+	<div class="row">
+		<div class="col-xs-12 col-md-6">
+			<h1 class="page-header">New Tab Set</h1>
+			<form method="POST">
+				<div class="form-group">
+					{{ form.uuid }}
+				</div>
+				<div class="form-group">
+					{{ form.title.label }} {{ form.title(size=100, class_="form-control", autofocus=true) }}
+				</div>
+				<div class="form-group">
+					<button class="btn btn-primary">Add Tab Set</button>
+					<a href="/manager" class="btn btn-link">Cancel</a>
+				</div>
+                </form>
+            </div>
+			</div>
+    </div>
+{% endblock %}

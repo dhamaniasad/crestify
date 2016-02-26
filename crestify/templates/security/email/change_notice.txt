@@ -1,0 +1,7 @@
+Your account password has been changed.
+{% if security.recoverable %}
+If you did not change your password, use the link below to reset it.
+{{ url_for_security('forgot_password', _external=True) }}
+{% endif %}
+
+- The Crestify Team

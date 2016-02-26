@@ -1,0 +1,48 @@
+{% extends "public/base.html" %}
+
+{% block title %}
+{{ bookmark.title }}
+{% endblock %}
+
+{% block content %}
+<div class="row">
+	<div class="col-md-12">
+		<h3>
+			<a href="{{ bookmark.main_url }}">{{ bookmark.title }}</a>
+		</h3>
+	</div>
+</div>
+{% if bookmark.archives %}
+<div class="row">
+	<div class="col-md-4"><p>We have the following archives on file for this page:</p></div>
+	<ul>
+		{% for archive in bookmark.archives %}
+		<li>
+			{% if 'ARCHIVE_FAILURE' == archive.status %}
+			<span title="Archiving is not possible for this page">
+				<span class="glyphicon glyphicon-remove"></span>
+				{{ archive.service}}</span>
+
+			{% elif 'ARCHIVE_ERROR' == archive.status %}
+			<span title="Something went wrong while archiving with this service">
+				<span class="glyphicon glyphicon-fire"></span>
+				{{ archive.service}}</span>
+
+			{% elif 'ARCHIVE_IN_PROGRESS' == archive.status %}
+			<span title="Archiving is in progress">
+				<span class="glyphicon glyphicon-refresh"></span>
+				{{ archive.service}}</span>
+
+			{% elif 'ARCHIVE_SUCCESSFUL' == archive.status %}
+			<a target="_blank" href="{{ archive.archive_url }}" class="text-muted"
+						       title="Archiving completed normally on {{ archive.archived_on.strftime('%d %b %Y') }}">
+				<span class="glyphicon glyphicon-ok"></span>
+				{{ archive.service}}</a>
+
+			{% endif %}
+		</li>
+		{% endfor %}
+	</ul>
+</div>
+{% endif %}
+{% endblock %}

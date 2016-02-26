@@ -1,0 +1,57 @@
+{% extends "manager/base.html" %}
+
+{% block title %}
+    Edit Bookmark
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-md-6">
+                <h1 class="page-header">Edit Bookmark</h1>
+
+                <form method="POST">
+                    <div class="form-group">
+                        {{ form.main_url.label }} {{ form.main_url(size=100, class_="form-control", readonly=true) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.title.label }} {{ form.title(size=100, class_="form-control", required=true, autofocus=true) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.description.label }} {{ form.description(size=100, class_="form-control") }}
+                    </div>
+                    <div class="form-group">
+                        {{ form.tags_1.label }} {{ form.tags_1(size=100, class_="form-control") }}
+                    </div>
+                    <script>
+                        $('#tags_1').attr('value', '{{bookmark_obj.tags_2 }}');
+                    </script>
+                    <script>
+                        $('#tags_1').selectize({
+                            plugins: ['remove_button', 'restore_on_backspace'],
+                            delimiter: ',',
+                            options: {{ user_tags|safe }},
+                            persist: false,
+                            create: function (input) {
+                                return {
+                                    value: input,
+                                    text: input
+                                }
+                            }
+                        });
+                    </script>
+                    <div class="form-group">
+                        <button class="btn btn-primary">Save Changes</button>
+                        <a href="/manager" class="btn btn-link">Cancel</a>
+                    </div>
+                </form>
+                <ul>
+                    {% for error in form.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
