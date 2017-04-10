@@ -40,7 +40,7 @@ def install_rabbitmq():
     sudo('echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list')
     sudo('apt-get -y install wget sudo')
     sudo('apt-get -y install ca-certificates')
-    sudo('wget --quiet -O - https://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -')
+    sudo('wget --quiet -O - https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -')
     sudo('apt-get update --fix-missing')
     sudo('apt-get -y install rabbitmq-server')
 
@@ -91,7 +91,7 @@ def config_environment():
     sudo('locale-gen en_US.UTF-8')
     with settings(sudo_user='crestify', shell='/bin/bash -c'):
         with cd('/home/crestify'):
-            sudo('git clone https://dhamaniasad@bitbucket.org/dhamaniasad/crestify_xyz123123123123.git crestify')
+            sudo('git clone https://github.com/crestify/crestify.git crestify')
             sudo('virtualenv crestifyenv')
             with prefix('source crestifyenv/bin/activate'):
                 sudo('pip install -r crestify/requirements.txt')
