@@ -91,7 +91,7 @@ def config_environment():
     sudo('locale-gen en_US.UTF-8')
     with settings(sudo_user='crestify', shell='/bin/bash -c'):
         with cd('/home/crestify'):
-            sudo('git clone https://dhamaniasad@bitbucket.org/dhamaniasad/crestify_xyz123123123123.git crestify')
+            sudo('git clone https://github.com/crestify/crestify.git crestify')
             sudo('virtualenv crestifyenv')
             with prefix('source crestifyenv/bin/activate'):
                 sudo('pip install -r crestify/requirements.txt')
