@@ -40,7 +40,7 @@ def install_rabbitmq():
     sudo('echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list')
     sudo('apt-get -y install wget sudo')
     sudo('apt-get -y install ca-certificates')
-    sudo('wget --quiet -O - https://www.rabbitmq.com/rabbitmq-signing-key-public.asc | sudo apt-key add -')
+    sudo('wget --quiet -O - https://www.rabbitmq.com/rabbitmq-release-signing-key.asc | sudo apt-key add -')
     sudo('apt-get update --fix-missing')
     sudo('apt-get -y install rabbitmq-server')
 
