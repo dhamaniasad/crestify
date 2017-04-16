@@ -32,6 +32,8 @@ $ pip install fabric
 $ fabric vagrant
 ```
 
+*side note: In order to install Fabric, you might need to install the `libffi-dev` & `libssl-dev` packages on Ubuntu.*
+
 That's it! Open your browser, head to `http://localhost:4545`, create an account, and you'll be good to go!
 
 To get the latest updates to Crestify, run:
