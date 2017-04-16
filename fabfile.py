@@ -32,7 +32,7 @@ def install_python_reqs():
     # We need the Python headers (python-dev) for compiling some libraries
     sudo('apt-get -y install python-virtualenv python-dev python-pip')
     # Readability dependencies for lxml
-    sudo('apt-get -y install libxslt1-dev libxml2-dev')
+    sudo('apt-get -y install libxslt1-dev libxml2-dev libz-dev')
 
 
 def install_rabbitmq():
