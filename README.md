@@ -29,7 +29,7 @@ To get started with Crestify, try out our Vagrant image!
 ```bash
 $ git clone https://github.com/crestify/crestify.git && cd crestify
 $ pip install fabric
-$ fabric vagrant
+$ fab vagrant_init
 ```
 
 *side note: In order to install Fabric, you might need to install the `libffi-dev` & `libssl-dev` packages on Ubuntu.*
