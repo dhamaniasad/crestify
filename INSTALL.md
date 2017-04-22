@@ -43,7 +43,8 @@ Please use the Vagrant image
 4. Install all the required Python dependencies with `pip install -r requirements.txt`
 5. Rename `sample_override.py` to `override.py`
 6. Rename the `sample.env` file to `.env` and change the value of `CRESTIFY_CONFIG_FILE` to the **absolute path** of your `override.py` file
-7. To setup/upgrade the database do `honcho run python main.py db upgrade`
-8. Finally start the application with `honcho start`. The application should be visible on [http://localhost:8000/](http://localhost:8000/)
+7. Start RabbitMQ in another terminal window using `service rabbit-server start` or `rabbitmq-server`
+8. To setup/upgrade the database do `honcho run python main.py db upgrade`
+9. Finally start the application with `honcho start`. The application should be visible on [http://localhost:8000/](http://localhost:8000/)
 
 For more info, please see `fabfile.py`.
