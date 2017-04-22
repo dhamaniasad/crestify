@@ -72,7 +72,7 @@
                         <h3 class="panel-title" id="tags_panel_title">Tags</h3>
                     </div>
                     <div class="panel-body">
-                    {% if user_tags is not None %}
+                    {% if user_tags is not none %}
                         {% for tag in user_tags %}
                             {% if request.args.get('tags') != None %}
                                 <a class="text-muted"

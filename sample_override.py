@@ -7,7 +7,7 @@ switch between them in the .env file
 
 '''
 
-# DEBUG = True
+DEBUG = False
 
 SECRET_KEY = 'insecure'
 
