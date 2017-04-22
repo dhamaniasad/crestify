@@ -12,7 +12,7 @@ class ArchiveTodayService(ArchiveService):
             "--ignore-ssl-errors=true",
             "--ssl-protocol=tlsv1",
             "--load-images=no"])
-        browser.get('https://archive.is')
+        browser.get('https://archive.li')
         input = browser.find_element_by_id('url')
         input.send_keys(url)
         input.submit()
