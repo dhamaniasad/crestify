@@ -18,7 +18,7 @@ def inject_addform():
 
 @app.context_processor
 def inject_user_tags():
-    if not current_user.is_authenticated():
+    if not current_user.is_authenticated:
         return {
             "user_tags": None
         }
@@ -37,7 +37,7 @@ def inject_user_tags():
 
 @app.context_processor
 def inject_bmark_count():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         bookmark_count = Bookmark.query.filter_by(user=current_user.id, deleted=False).count()
         return dict(bookmark_count=bookmark_count)
     return dict(bookmark_count=0)
@@ -146,7 +146,7 @@ def bookmark_new():
                                         url=form.main_url.data,
                                         description=form.description.data,
                                         tags=form.tags.data,
-                                        userid=current_user.id)
+                                        user_id=current_user.id)
             # And we queue the async background jobs
             bookmark_tasks.readable_extract.delay(new_bookmark)
             bookmark_tasks.fulltext_extract.delay(new_bookmark)
