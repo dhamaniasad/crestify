@@ -146,6 +146,10 @@ def _git_update():
     with settings(sudo_user="crestify", shell='/bin/bash -c'):
         with cd('/home/crestify/crestify'):
             sudo('git pull')
+        with cd('/home/crestify'):
+            with settings(sudo_user='crestify', shell='/bin/bash -c'):
+                with prefix('source crestifyenv/bin/activate'):
+                    sudo('pip install -r crestify/requirements.txt')
 
 
 def _restart_supervisor():
