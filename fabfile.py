@@ -23,6 +23,7 @@ def vagrant_init():
     execute(create_database)
     execute(config_environment)
     execute(setup_crestify_config)
+    execute(run_migrations)
     execute(setup_nginx)
     execute(setup_supervisor)
 
@@ -97,6 +98,13 @@ def config_environment():
                 sudo('pip install -r crestify/requirements.txt')
 
 
+def run_migrations():
+    with settings(sudo_user='crestify', shell='/bin/bash -c'):
+        with cd('/home/crestify/crestify'):
+            with prefix('source ../crestifyenv/bin/activate'):
+                sudo('honcho run python main.py db upgrade')  # Run initial migrations
+
+
 def setup_crestify_config():
     with settings(sudo_user="crestify", shell='/bin/bash -c'):
         with cd('/home/crestify'):
@@ -145,12 +153,14 @@ def update():
 def _git_update():
     with settings(sudo_user="crestify", shell='/bin/bash -c'):
         with cd('/home/crestify/crestify'):
-            sudo('git pull')
-        with cd('/home/crestify'):
-            with settings(sudo_user='crestify', shell='/bin/bash -c'):
-                with prefix('source crestifyenv/bin/activate'):
-                    sudo('pip install -r crestify/requirements.txt')
+            with prefix('source ../crestifyenv/bin/activate'):
+                with settings(sudo_user='crestify', shell='/bin/bash -c'):
+                    sudo('git pull')
+                    sudo('pip install -r requirements.txt')
+                    sudo('honcho run python main.py db upgrade')
 
 
 def _restart_supervisor():
+    sudo('supervisorctl reread all')
+    sudo('supervisorctl update all')
     sudo('supervisorctl restart all')
