@@ -12,6 +12,7 @@ SECURITY_CHANGEABLE = True
 SECURITY_CHANGE_URL = '/manager/settings/changepassword'
 SECURITY_PASSWORD_HASH = 'bcrypt'
 SECURITY_PASSWORD_SALT = 'insecure'
+SECURITY_SEND_REGISTER_EMAIL = False  # Disable sending register email so we don't need SMTP
 
 MAIL_SERVER = 'smtp.mailserver.com'
 MAIL_PORT = 587
