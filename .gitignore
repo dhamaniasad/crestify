@@ -21,3 +21,4 @@ override.py
 crestify/static/gen
 *.DS_Store
 .codeintel
+.vscode
