@@ -99,7 +99,7 @@ document.write(moment("{{bookmark.added_on.strftime('%Y-%m-%dT%H:%M:%S+00:00')}}
 				{% endif %}
 				</p>
 				<p>
-				{% if bookmark.tags != [] and bookmark.tags != [''] %}
+				{% if bookmark.tags and bookmark.tags != [] and bookmark.tags != [''] %}
 				<span class="text-muted">
 					<b>Tags</b>:
 					{% for tag in bookmark.tags %}
