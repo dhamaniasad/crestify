@@ -166,7 +166,7 @@ def bookmark_new():
 @login_required
 def bookmark_edit(bookmark_id=None):
     if bookmark_id:
-        bookmark_id = hashids.decode(bookmark_id)[0]
+        bookmark_id = hashids.decode(str(bookmark_id))[0]  # Apparently, hashids.decode doesn't accept unicode input
         bookmarkobj = _get_user_object_or_404(Bookmark,
                                               bookmark_id,
                                               current_user.id)
@@ -188,7 +188,7 @@ def bookmark_edit(bookmark_id=None):
 @app.route('/manager/bookmark/read/<string:bookmark_id>', methods=['GET'])
 @login_required
 def bookmark_reader(bookmark_id=None):
-    bookmark_id = hashids.decode(bookmark_id)[0]
+    bookmark_id = hashids.decode(str(bookmark_id))[0]
     bookmarkobj = _get_user_object_or_404(Bookmark, bookmark_id, current_user.id)
     if bookmarkobj.readability_html is None:
         return abort(404)
@@ -203,7 +203,7 @@ def bookmark_reader(bookmark_id=None):
 @app.route('/manager/bookmark/context/<string:bookmark_id>', methods=['GET'])
 @login_required
 def bookmark_context(bookmark_id):
-    bookmark_id = hashids.decode(bookmark_id)[0]
+    bookmark_id = hashids.decode(str(bookmark_id))[0]
     query = db.session.query(Bookmark.id).filter_by(user=current_user.id, deleted=False).order_by(Bookmark.added_on.desc()).all()
     count = query.index((bookmark_id,)) + 1
     page_num = int(count/(current_user.bookmarks_per_page) + 1)

@@ -98,10 +98,10 @@ class AddURL(Resource):
             added = args[
                         'addedon'] / 1000  # Convert timestamp from milliseconds since epoch to seconds(Chrome sends millisecs)
             new_bookmark = bookmark.new(title=urllib.unquote(args['title']), url=urllib.unquote(args['url']),
-                                        userid=userid, tags=args['tags'])
+                                        user_id=userid, tags=args['tags'])
         else:
             new_bookmark = bookmark.new(title=urllib.unquote(args['title']), url=urllib.unquote(args['url']),
-                                        userid=userid)
+                                        user_id=userid)
         bookmark_tasks.readable_extract.delay(new_bookmark)
         bookmark_tasks.fulltext_extract.delay(new_bookmark)
         bookmark_tasks.fetch_description.delay(new_bookmark)
