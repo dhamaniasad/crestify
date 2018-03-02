@@ -79,11 +79,14 @@ class CheckURLInfo(Resource):
             query = Bookmark.query.filter(Bookmark.main_url.endswith(parsed_url), Bookmark.user == userid,
                                           Bookmark.deleted == False).order_by(Bookmark.added_on.desc()).first()
             if query:
-                current_tags = ','.join(query.tags)
+                current_tags = None
+                if query.tags:
+                    current_tags = ','.join(query.tags)
                 user_tags = Tag.query.filter(Tag.user == userid, Tag.count > 0).all()
                 user_tags.sort(key=lambda k: k.text.lower())
                 [user_tags.remove(tag) for tag in user_tags if tag.text == '']
-                user_tags = ','.join([tag.text for tag in user_tags])
+                if user_tags:
+                    user_tags = ','.join([tag.text for tag in user_tags])
                 return {'message': 'You have this URL bookmarked', 'tags': current_tags, 'tagopts': user_tags,
                         'id': hashids.encode(query.id)}, 200
             else:
