@@ -22,3 +22,4 @@ crestify/static/gen
 *.DS_Store
 .codeintel
 .vscode
+dumb.rdb
