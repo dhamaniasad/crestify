@@ -170,7 +170,8 @@ def bookmark_edit(bookmark_id=None):
         bookmarkobj = _get_user_object_or_404(Bookmark,
                                               bookmark_id,
                                               current_user.id)
-        bookmarkobj.tags_2 = ','.join(bookmarkobj.tags).encode('utf-8')
+        if bookmarkobj.tags:
+            bookmarkobj.tags_2 = ','.join(bookmarkobj.tags).encode('utf-8')
         form = EditBookmarkForm(obj=bookmarkobj,
                                 csrf_enabled=False)
         if form.validate_on_submit():
