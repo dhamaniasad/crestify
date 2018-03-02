@@ -80,7 +80,7 @@ class CheckURLInfo(Resource):
                                           Bookmark.deleted == False).order_by(Bookmark.added_on.desc()).first()
             if query:
                 current_tags = ','.join(query.tags)
-                user_tags = Tag.query.filter(Tag.user == current_user.id, Tag.count > 0).all()
+                user_tags = Tag.query.filter(Tag.user == userid, Tag.count > 0).all()
                 user_tags.sort(key=lambda k: k.text.lower())
                 [user_tags.remove(tag) for tag in user_tags if tag.text == '']
                 user_tags = ','.join([tag.text for tag in user_tags])
