@@ -80,8 +80,8 @@ class CheckURLInfo(Resource):
                                           Bookmark.deleted == False).order_by(Bookmark.added_on.desc()).first()
             if query:
                 current_tags = ','.join(query.tags)
-                user_tags = db.session.query(Tag).join(tags, Tag.id == tags.c.tag_id).join(
-                    Bookmark, Bookmark.id == tags.c.bookmark_id).filter(Bookmark.user == userid).all()
+                user_tags = Tag.query.filter(Tag.user == current_user.id, Tag.count > 0).all()
+                user_tags.sort(key=lambda k: k.text.lower())
                 [user_tags.remove(tag) for tag in user_tags if tag.text == '']
                 user_tags = ','.join([tag.text for tag in user_tags])
                 return {'message': 'You have this URL bookmarked', 'tags': current_tags, 'tagopts': user_tags,
