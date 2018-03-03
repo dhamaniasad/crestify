@@ -47,7 +47,7 @@ def delete(id, user_id):
         delete_bookmark.deleted = True
         tags = delete_bookmark.tags
         # If tags are present, we'll want to decrement their counts here
-        if len(tags) > 0:
+        if tags and len(tags) > 0:
             for tag in tags:
                 get_tag = Tag.query.filter_by(text=tag,
                                               user=user_id).first()
