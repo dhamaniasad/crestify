@@ -17,14 +17,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.11.2/js/standalone/selectize.min.js"></script>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
         <script src="//use.typekit.net/xit4ufx.js"></script>
-        <script>try {
-            Typekit.load();
-        } catch (e) {
-        }</script>
-        {% assets output="gen/packed.css", "css/site.css" %}
-            <link rel="stylesheet" href="{{ ASSET_URL }}"/>
-        {% endassets %}
-
+        <script>
+            try {
+                Typekit.load();
+            } catch (e) {
+            }
+        </script>
+        <link href="{{url_for('static', filename='css/site.css')}}" 
         <title>
             {% block title %} {{ title }} {% endblock %} - Crestify
         </title>
