@@ -98,10 +98,15 @@ def edit(id, user_id, title=None, description=None, tags=None):
 def api_edit(id, tags, user_id):
     edit_bookmark = Bookmark.query.get(id)
     if tags != ['']:
+        added_tags = None
+        removed_tags = None
         ls1 = edit_bookmark.tags
         ls2 = tags
-        added_tags = set(ls1 + ls2) - set(ls1)
-        removed_tags = set(ls1 + ls2) - set(ls2)
+        if ls1:
+            added_tags = set(ls1 + ls2) - set(ls1)
+            removed_tags = set(ls1 + ls2) - set(ls2)
+        else:
+            added_tags = set(ls2)
         if added_tags:
             for tag in added_tags:
                 get_tag = Tag.query.filter_by(text=tag,
