@@ -102,21 +102,23 @@ def api_edit(id, tags, user_id):
         ls2 = tags
         added_tags = set(ls1 + ls2) - set(ls1)
         removed_tags = set(ls1 + ls2) - set(ls2)
-        for tag in added_tags:
-            get_tag = Tag.query.filter_by(text=tag,
-                                          user=user_id).first()
-            if not get_tag:
-                new_tag = Tag(text=tag, user=user_id)
-                new_tag.count = 1
-                db.session.add(new_tag)
-            else:
-                get_tag.count += 1
-        for tag in removed_tags:
-            get_tag = Tag.query.filter_by(text=tag,
-                                          user=user_id).first()
-            if not get_tag:
-                pass
-            else:
-                get_tag.count -= 1
+        if added_tags:
+            for tag in added_tags:
+                get_tag = Tag.query.filter_by(text=tag,
+                                              user=user_id).first()
+                if not get_tag:
+                    new_tag = Tag(text=tag, user=user_id)
+                    new_tag.count = 1
+                    db.session.add(new_tag)
+                else:
+                    get_tag.count += 1
+        if removed_tags:
+            for tag in removed_tags:
+                get_tag = Tag.query.filter_by(text=tag,
+                                              user=user_id).first()
+                if not get_tag:
+                    pass
+                else:
+                    get_tag.count -= 1
         edit_bookmark.tags = ls2
     db.session.commit()
