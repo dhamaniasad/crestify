@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from flask import Flask
 from flask_assets import Environment
-from flask.ext.script import Manager
-from flask.ext import restful
+from flask_script import Manager
+import flask_restful as restful
 from flask_debugtoolbar import DebugToolbarExtension
-from flask.ext.cors import CORS
+from flask_cors import CORS
 import os
 import errno
 from raven.contrib.flask import Sentry

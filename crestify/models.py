@@ -6,7 +6,7 @@ from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils.types import TSVectorType
 from sqlalchemy.ext.associationproxy import association_proxy
 from flask_security import UserMixin, RoleMixin
-from flask.ext.migrate import Migrate, MigrateCommand
+from flask_migrate import Migrate, MigrateCommand
 from crestify import manager
 from sqlalchemy.dialects import postgresql
 

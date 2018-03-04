@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from flask import request
 from crestify import api, redis, hashids
-from flask.ext.restful import Resource, reqparse
+from flask_restful import Resource, reqparse
 from crestify.models import Bookmark, User, Tag, db
 from crestify.services import bookmark
 from crestify.tasks import bookmark_tasks
