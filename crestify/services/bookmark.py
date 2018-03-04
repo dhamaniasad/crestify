@@ -70,8 +70,8 @@ def edit(id, user_id, title=None, description=None, tags=None):
         edit_bookmark.description = description[:256]
     if tags != "" or tags is not None:
         if type(tags) is unicode:
-            ls1 = edit_bookmark.tags
-            ls2 = tags.split(',')
+            ls1 = edit_bookmark.tags or []
+            ls2 = tags.split(',') or []
             # Compute deltas between new and current tags
             added_tags = set(ls1 + ls2) - set(ls1)
             removed_tags = set(ls1 + ls2) - set(ls2)
@@ -97,11 +97,11 @@ def edit(id, user_id, title=None, description=None, tags=None):
 
 def api_edit(id, tags, user_id):
     edit_bookmark = Bookmark.query.get(id)
+    ls1 = edit_bookmark.tags or []
+    ls2 = tags
+    added_tags = None
+    removed_tags = None
     if tags != ['']:
-        added_tags = None
-        removed_tags = None
-        ls1 = edit_bookmark.tags
-        ls2 = tags
         if ls1:
             added_tags = set(ls1 + ls2) - set(ls1)
             removed_tags = set(ls1 + ls2) - set(ls2)
@@ -117,13 +117,16 @@ def api_edit(id, tags, user_id):
                     db.session.add(new_tag)
                 else:
                     get_tag.count += 1
-        if removed_tags:
-            for tag in removed_tags:
-                get_tag = Tag.query.filter_by(text=tag,
-                                              user=user_id).first()
-                if not get_tag:
-                    pass
-                else:
-                    get_tag.count -= 1
         edit_bookmark.tags = ls2
+    else:
+        removed_tags = set(edit_bookmark.tags)
+        edit_bookmark.tags = []
+    if removed_tags:
+        for tag in removed_tags:
+            get_tag = Tag.query.filter_by(text=tag,
+                                          user=user_id).first()
+            if not get_tag:
+                pass
+            else:
+                get_tag.count -= 1
     db.session.commit()
