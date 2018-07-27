@@ -10,6 +10,7 @@ import shortuuid
 import urllib
 import urlparse
 import arrow
+from flask_security import utils as security_utils
 
 parser = reqparse.RequestParser()
 parser.add_argument('url', type=str)
@@ -20,6 +21,7 @@ parser.add_argument('addedon', type=int)  # Send in milliseconds since epoch onl
 parser.add_argument('tags', type=str)  # Send comma separated string
 parser.add_argument('id', type=str)
 parser.add_argument('tabs', location='json')
+parser.add_argument('password', type=str)
 
 
 def require_auth(view_function):
@@ -137,6 +139,19 @@ class CheckAuth(Resource):
             return {'message': 'Authentication Failed'}, 401
 
 
+class CheckPassword(Resource):
+    def post(self):
+        args = parser.parse_args()
+        email = args['email']
+        password = args['password']
+        if email is None or password is None:
+            return {'message': "Email or password empty"}, 401
+        user = User.query.filter_by(email=args["email"]).first()
+        if security_utils.verify_password(password, user.password):
+            return {'message': 'Login Successful', 'apikey': user.api_key}, 200
+        return {'message': 'Login Failed'}, 401
+
+
 class DeleteBookmark(Resource):
     method_decorators = [require_auth]
 
@@ -169,3 +184,4 @@ api.add_resource(CheckURLInfo, '/api/checkinfo')
 api.add_resource(EditBookmark, '/api/edit')
 api.add_resource(DeleteBookmark, '/api/delete')
 api.add_resource(AddTabs, '/api/tabs/add')
+api.add_resource(CheckPassword, '/api/login')
