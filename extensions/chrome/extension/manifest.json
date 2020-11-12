@@ -1,0 +1,24 @@
+{
+  "name": "Crestify",
+  "description": "Easy 1-click bookmarking with Crestify",
+  "manifest_version": 2,
+  "homepage_url": "https://crestify.com",
+  "version": "0.3.2",
+  "background": { "page": "background.html" },
+  "page_action": {
+          "default_icon": "icon1.png",
+          "default_title": "Click to bookmark"
+        },
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "storage",
+    "contextMenus"
+  ],
+  "icons": {
+    "16": "/icons/16.png",
+    "48": "/icons/48.png",
+    "128": "/icons/128.png"
+  }
+}

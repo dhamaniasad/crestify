@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/libs/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="/css/popup-login.css">
+<script type="text/javascript" src="/libs/jquery.min.js"></script>
+<script type="text/javascript" src="/libs/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/libs/require.min.js"></script>
+</head>
+<body>
+<div class="alert alert-danger alert-dismissible hidden" role="alert" id="loginFailedAlert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Login failed! Please check your credentials and try again!
+</div>
+<div class="alert alert-danger alert-dismissible hidden" role="alert" id="loginEmptyAlert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+  Please fill both fields and try again!
+</div>
+<div class="alert alert-success hidden" id="loginSuccessAlert" role="alert">Login Successful!</div>
+<form>
+  <div class="form-group">
+    <input type="email" class="form-control input-sm" id="userEmail" placeholder="Email address">
+  </div>
+  <div class="form-group">
+    <input type="password" class="form-control input-sm" id="userAk" placeholder="API key">
+  </div>
+  <button type="submit" id="myButton" data-loading-text="Logging in..." class="btn btn-sm">Submit</button>
+</form>
+<script type="text/javascript" src="/js/login.js"></script>
+</body>
+</html>
