@@ -3,13 +3,12 @@
 from crestify import app
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
 from sqlalchemy_searchable import SearchQueryMixin
-from sqlalchemy_utils.types import TSVectorType
+from sqlalchemy_utils.types import TSVectorType, ScalarListType
 from sqlalchemy.ext.associationproxy import association_proxy
 from flask_security import UserMixin, RoleMixin
 from flask_migrate import Migrate, MigrateCommand
 from crestify import manager
-from sqlalchemy.dialects import postgresql
-
+import datetime
 
 # Setup SQLAlchemy
 db = SQLAlchemy(app)
@@ -19,6 +18,12 @@ manager.add_command('db', MigrateCommand)
 
 class BookmarkQuery(BaseQuery, SearchQueryMixin):
     pass
+
+
+tags = db.Table('tags',
+                db.Column('tag_id', db.Integer, db.ForeignKey('tag.id')),
+                db.Column('bookmark_id', db.Integer, db.ForeignKey('Bookmarks.id'))
+                )
 
 
 class Bookmark(db.Model):
@@ -34,7 +39,8 @@ class Bookmark(db.Model):
     search_vector = db.Column(TSVectorType('title', 'description'))
     archives = db.relationship('Archive')
     readability_html = db.Column(db.Text, nullable=True)
-    tags = db.Column(postgresql.ARRAY(db.String))
+    tags_relationship = db.relationship('Tag', secondary=tags, backref=db.backref('bookmarks', lazy='dynamic'))
+    tags = association_proxy('tags_relationship', 'text')
     full_text = db.Column(db.Text, nullable=True)
     fulltext_vector = db.Column(TSVectorType('full_text'))
 
@@ -64,6 +70,7 @@ class User(db.Model, UserMixin):
                             backref=db.backref('users', lazy='dynamic'))
     bookmarks_per_page = db.Column(db.Integer, default=20)
     api_key = db.Column(db.String(255), unique=True, nullable=True)
+    invite_id = db.Column(db.Integer, db.ForeignKey('Invites.id'))
 
 
 class Archive(db.Model):
@@ -86,13 +93,10 @@ class Archive(db.Model):
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     text = db.Column(db.String(255))
-    user = db.Column(db.Integer, db.ForeignKey('User.id'))
-    count = db.Column(db.Integer, default=0)
 
-    def __init__(self, text, user):
-        self.text = text
-        self.user = user
-
+    def __init__(self, text=None):
+        if text is not None:
+            self.text = text
 
 class Tab(db.Model):
     id = db.Column(db.String(50), primary_key=True)
@@ -100,3 +104,14 @@ class Tab(db.Model):
     added_on = db.Column(db.DateTime())
     user = db.Column(db.Integer, db.ForeignKey('User.id'))
     title = db.Column(db.String(255))
+
+
+class Invite(db.Model):
+    __tablename__ = "Invites"
+    id = db.Column(db.Integer, primary_key=True)
+    text = db.Column(db.String(50))
+    single_use = db.Column(db.Boolean(), default=True)
+    used = db.Column(db.Boolean(), default=False)
+    users = db.relationship('User', backref='invite',
+                                lazy='dynamic')
+    created_on = db.Column(db.DateTime(), default=datetime.datetime.utcnow)
