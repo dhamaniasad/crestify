@@ -7,9 +7,11 @@ switch between them in the .env file
 
 '''
 
-DEBUG = False
+DEBUG = True
 
 SECRET_KEY = 'insecure'
+
+SQLALCHEMY_DATABASE_URI = 'postgresql://crestify@localhost/crestify_db'
 
 SECURITY_PASSWORD_SALT = 'insecure'
 
@@ -17,6 +19,8 @@ MAIL_SERVER = 'smtp.mandrillapp.com'
 MAIL_USERNAME = 'admin@example.com'
 MAIL_PASSWORD = 'insecure'
 
+RECAPTCHA_PUBLIC_KEY = ''
+RECAPTCHA_PRIVATE_KEY = ''
 
 # CELERY_ACCEPT_CONTENT = ['pickle']
 # CELERY_BROKER_URL = 'amqp://'
