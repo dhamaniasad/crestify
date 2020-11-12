@@ -9,6 +9,7 @@ import os
 import errno
 from raven.contrib.flask import Sentry
 import redis
+import mixpanel
 import hashids
 
 
@@ -21,6 +22,7 @@ api = restful.Api(app)
 cors = CORS(app, resources={r"/api/*": {"origins": "*"}}, allow_headers=["X-Requested-With", "Content-Type"])
 sentry = Sentry(app)
 redis = redis.StrictRedis.from_url(app.config['REDIS_URI'])
+mixpanel = mixpanel.Mixpanel(app.config['MIXPANEL_PROJECT_TOKEN'])
 hashids = hashids.Hashids(app.config['HASHIDS_SALT'])
 
 # Create the upload directory and catch OSError if it already exists
