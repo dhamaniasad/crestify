@@ -8,8 +8,16 @@ from crestify import app
 @app.route('/')
 def index():
     '''The Main page'''
-    if current_user.is_anonymous:
+    if current_user.is_anonymous():
         return render_template("site/index.html")
+    else:
+        return redirect("/manager/bookmark")
+
+@app.route('/producthunt')
+def ph_index():
+    '''The Main page'''
+    if current_user.is_anonymous():
+        return render_template("site/hunted_index.html")
     else:
         return redirect("/manager/bookmark")
 
@@ -23,6 +31,12 @@ def about():
 @app.route('/features')
 def features():
     '''Features page'''
+    return render_template("site/index.html")
+
+
+@app.route('/pricing')
+def pricing():
+    '''Pricing page'''
     return render_template("site/index.html")
 
 
