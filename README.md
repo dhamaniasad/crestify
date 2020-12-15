@@ -1,5 +1,7 @@
 # Crestify
-#### Intelligent Bookmarking
+### Intelligent Bookmarking
+
+#### 🎉 ANNOUNCEMENT: A new, improved version of Crestify is on the way. More details coming soon! [15/12/2020]
 
 ![](https://i.imgur.com/3Qtdzdy.png)
 
