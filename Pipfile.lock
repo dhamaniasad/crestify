@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "9793c39bd72b329e61aa544ad79592e4c76a11987ae5f0a9b40bac5c40219d0d"
+            "sha256": "52007f3118475dc41e4180b9485c5b225e0d5d6f4b0b823f777c95dbc732f1c1"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -167,6 +167,22 @@
             ],
             "markers": "python_version >= '3.6'",
             "version": "==2.0.0"
+        },
+        "elasticsearch": {
+            "hashes": [
+                "sha256:4ebd34fd223b31c99d9f3b6b6236d3ac18b3046191a37231e8235b06ae7db955",
+                "sha256:a725dd923d349ca0652cf95d6ce23d952e2153740cf4ab6daf4a2d804feeed48"
+            ],
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3' and python_version < '4'",
+            "version": "==7.10.1"
+        },
+        "elasticsearch-dsl": {
+            "hashes": [
+                "sha256:0ed75f6ff037e36b2397a8e92cae0ddde79b83adc70a154b8946064cb62f7301",
+                "sha256:9390d8e5cf82ebad3505e7f656e407259cf703f5a4035f211cef454127672572"
+            ],
+            "index": "pypi",
+            "version": "==7.3.0"
         },
         "email-validator": {
             "hashes": [
@@ -689,11 +705,11 @@
         },
         "validators": {
             "hashes": [
-                "sha256:1a653b33c0ab091790f65f42b61aa191e354ed5fdedfeb17d24a86d0789966d7",
-                "sha256:f787632edf9e054e9cf580d3016f5b0e9ad83b8a00a258b71406db0456e17007"
+                "sha256:0143dcca8a386498edaf5780cbd5960da1a4c85e0719f3ee5c9b41249c4fefbd",
+                "sha256:37cd9a9213278538ad09b5b9f9134266e7c226ab1fede1d500e29e0a8fbb9ea6"
             ],
             "markers": "python_version >= '3.4'",
-            "version": "==0.18.1"
+            "version": "==0.18.2"
         },
         "vine": {
             "hashes": [

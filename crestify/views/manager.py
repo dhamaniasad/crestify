@@ -75,26 +75,22 @@ def bookmark_list():
     Returns a list of bookmarks
     """
     search_form = SearchForm(request.args)
-    # Create the base query
-    # After this query is created, we keep iterating over it until we reach the desired level of filtering
-    query = Bookmark.query.filter_by(user=current_user.id, deleted=False).order_by(
-        Bookmark.added_on.desc()
-    )
-    # Get list of tags we'll be filtering by
-    tag_args = request.values.getlist("tags")
-    if len(tag_args) == 0:
-        tag_args = None
-    else:
-        for tag in tag_args:
-            # Check is any of the tags for the bookmark match up with tag
-            query = query.filter(Bookmark.tags.any(tag))
+
+    query = None
+
     # This means that the search form has been used
     if search_form.query.data is not None:
         # Search query type can be either basic, full text, or url
         # This is basic search, which searches in the bookmark titles and descriptions
         if search_form.parameter.data == "basic":
-            query = search(
-                query, search_form.query.data, vector=Bookmark.search_vector
+            query, total_hits = Bookmark.search(
+                search_form.query.data,
+                1,
+                100,
+                [
+                    {"key": "user", "value": current_user.id},
+                    {"key": "deleted", "value": False},
+                ],
             )  # XXX is this safe?
             user_count = Bookmark.query.filter_by(
                 user=current_user.id, deleted=False
@@ -126,6 +122,21 @@ def bookmark_list():
             query = query.filter(Bookmark.main_url.contains(search_form.query.data))
         else:
             pass
+
+    # Create the base query
+    # After this query is created, we keep iterating over it until we reach the desired level of filtering
+    if not query:
+        query = Bookmark.query.filter_by(user=current_user.id, deleted=False).order_by(
+            Bookmark.added_on.desc()
+        )
+    # Get list of tags we'll be filtering by
+    tag_args = request.values.getlist("tags")
+    if len(tag_args) == 0:
+        tag_args = None
+    else:
+        for tag in tag_args:
+            # Check is any of the tags for the bookmark match up with tag
+            query = query.filter(Bookmark.tags.any(tag))
     # Context view takes you to the page the bookmark with a specific id is present on
     # Here the id is used to know which bookmark should be highlighted
     try:

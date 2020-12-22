@@ -54,8 +54,9 @@ Crestify is a Flask-based application written in Python 3.
 
 * Languages: Python 3 & JavaScript
 * Framework: Flask
-* Database: Crestify uses PostgreSQL as its database, and takes advantage of the full-text search capabilities of Postgres. Redis is used as a temp database for holding incoming tab saves
+* Database: Crestify uses PostgreSQL as its database. Redis is used as a temp database for holding incoming tab saves.
 * Message Queue: Redis is used as a message queue for asynchronously-run tasks related to bookmarking
+* Search Engine: Crestify uses ElasticSearch for its search backend
 * Browser: Crestify uses PhantomJS to generate the DOM like a browser does for full-text extraction and readability view generation
 
 ### License

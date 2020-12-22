@@ -2,13 +2,13 @@
 """Models for Crestify"""
 from crestify import app
 from flask_sqlalchemy import SQLAlchemy, BaseQuery
-from sqlalchemy_searchable import SearchQueryMixin
 from sqlalchemy_utils.types import TSVectorType
 from flask_security import UserMixin, RoleMixin
 from flask_migrate import Migrate, MigrateCommand
 from crestify import manager
 from sqlalchemy.dialects import postgresql
 
+from crestify.services.search import add_to_index, query_index, remove_from_index
 
 # Setup SQLAlchemy
 db = SQLAlchemy(app)
@@ -16,13 +16,64 @@ migrate = Migrate(app, db)
 manager.add_command("db", MigrateCommand)
 
 
-class BookmarkQuery(BaseQuery, SearchQueryMixin):
-    pass
+class SearchableMixin(object):
+    @classmethod
+    def search(cls, expression, page, per_page, filters=None):
+        ids, total = query_index(cls.__tablename__, expression, page, per_page, filters)
+        if total == 0:
+            return cls.query.filter_by(id=0), 0
+        when = []
+        for i in range(len(ids)):
+            when.append((ids[i], i))
+        return (
+            cls.query.filter(cls.id.in_(ids)).order_by(db.case(when, value=cls.id)),
+            total,
+        )
+
+    @classmethod
+    def before_commit(cls, session):
+        session._changes = {
+            "add": list(session.new),
+            "update": list(session.dirty),
+            "delete": list(session.deleted),
+        }
+
+    @classmethod
+    def after_commit(cls, session):
+        for obj in session._changes["add"]:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes["update"]:
+            if isinstance(obj, SearchableMixin):
+                add_to_index(obj.__tablename__, obj)
+        for obj in session._changes["delete"]:
+            if isinstance(obj, SearchableMixin):
+                remove_from_index(obj.__tablename__, obj)
+        session._changes = None
+
+    @classmethod
+    def reindex(cls):
+        for obj in cls.query:
+            add_to_index(cls.__tablename__, obj)
 
 
-class Bookmark(db.Model):
-    query_class = BookmarkQuery
+def index_all_bookmarks():
+    for bookmark in Bookmark.query.all():
+        add_to_index("bookmarks", bookmark)
+
+
+class Bookmark(SearchableMixin, db.Model):
     __tablename__ = "Bookmarks"
+    __searchable__ = [
+        "title",
+        "description",
+        "full_text",
+        "user",
+        "deleted",
+        "tags",
+        "main_url",
+        "added_on",
+    ]
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(1024), nullable=True)
     description = db.Column(db.String(256))
@@ -101,3 +152,8 @@ class Tab(db.Model):
     added_on = db.Column(db.DateTime())
     user = db.Column(db.Integer, db.ForeignKey("User.id"))
     title = db.Column(db.String(255))
+
+
+# Setup event listeners
+db.event.listen(db.session, "before_commit", SearchableMixin.before_commit)
+db.event.listen(db.session, "after_commit", SearchableMixin.after_commit)

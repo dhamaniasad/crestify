@@ -32,3 +32,10 @@ WEB_SERVER_IP = "127.0.0.1"
 MIXPANEL_PROJECT_TOKEN = ""
 
 HASHIDS_SALT = "6:Vh3-N4]/~B o38#y!a>X$$~x@'>v(*FJhj43khk234"
+
+SQLALCHEMY_TRACK_MODIFICATIONS = (
+    True  # TODO: Remove and switch to SQLAlchemy native event system
+)
+
+# Elasticsearch
+ELASTICSEARCH_URL = "http://localhost:9200"

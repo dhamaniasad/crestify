@@ -38,6 +38,7 @@ mixpanel = "==4.7.0"
 email-validator = "*"
 python-dotenv = "*"
 flask-security-too = "*"
+elasticsearch-dsl = "<8.0.0,>=7.0.0"
 
 [dev-packages]
 pipdeptree = "*"

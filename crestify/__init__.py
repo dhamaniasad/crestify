@@ -11,9 +11,10 @@ from raven.contrib.flask import Sentry
 import redis
 import mixpanel
 import hashids
-
+from elasticsearch import Elasticsearch
 
 # Setup Application
+
 app = Flask(__name__)
 app.config.from_object("defaults")
 app.config.from_envvar("CRESTIFY_CONFIG_FILE")
@@ -25,9 +26,14 @@ cors = CORS(
     allow_headers=["X-Requested-With", "Content-Type"],
 )
 sentry = Sentry(app)
+
 redis = redis.StrictRedis.from_url(app.config["REDIS_URI"])
+
 mixpanel = mixpanel.Mixpanel(app.config["MIXPANEL_PROJECT_TOKEN"])
+
 hashids = hashids.Hashids(app.config["HASHIDS_SALT"])
+
+elastic_search_engine = Elasticsearch([app.config["ELASTICSEARCH_URL"]])
 
 # Create the upload directory and catch OSError if it already exists
 try:
@@ -49,6 +55,15 @@ assets = Environment(app)
 assets_output_dir = os.path.join(
     os.path.dirname(os.path.abspath(__file__)), "..", "static", "gen"
 )
+
+
+# Setup commands
+@manager.command
+def initialize_index():
+    from crestify.models import Bookmark
+
+    Bookmark.reindex()
+
 
 if app.config["DEBUG"]:
     toolbar = DebugToolbarExtension(app)
