@@ -12,7 +12,7 @@
                 <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
             </div>
             <div class="modal-body">
-                <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+                <form onsubmit="event.preventDefault(); validate_code()" action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
                     {{ register_user_form.csrf_token() }}
                     <div class="row">
                         <div class="form-group">
@@ -49,6 +49,25 @@
                         {% endif %}
                         <div class="col-md-12">
                             <div class="form-group">
+                                {{ register_user_form.invite_code.label }}
+                                {{ render_field(register_user_form.invite_code, class_="form-control",
+							required="true") }}
+                                {% if register_user_form.invite_code.errors %}
+                                    <ul class="errors">{% for error in register_user_form.invite_code.errors %}
+                                        <li>{{ error }}</li>{% endfor %}</ul>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                {{ render_field(register_user_form.recaptcha, class_="form-control",
+							required="true") }}
+                            </div>
+                        </div>
+                        {{ render_field(register_user_form.invite_id,
+							required="true", hidden="true") }}
+                        <div class="col-md-12">
+                            <div class="form-group">
                                 <label for="toc" class="form-control">
                                     <input type="checkbox" required="true" id="toc"/>
                                     <small>I agree to the <a href="/tos">Terms and Conditions</a></small>
@@ -70,4 +89,18 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+        function validate_code() {
+            $.getJSON($SCRIPT_ROOT + '/_getinvite_id', {
+                code: $('#invite_code').val()
+            }, function (data) {
+                var inv_id = data.id;
+                do_submit(inv_id);
+            });
+        }
+        function do_submit(inv_id) {
+            document.register_user_form.invite_id.value = inv_id;
+            document.register_user_form.submit();
+        }
+    </script>
 {% endblock %}

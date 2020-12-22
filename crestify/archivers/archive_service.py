@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 class ArchiveService:
     def get_service_name(self):
-        return 'DEFAULT'
+        return "DEFAULT"
 
     def submit(self, url):
         pass

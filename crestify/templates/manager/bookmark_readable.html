@@ -34,4 +34,7 @@ $.scrolline({
 </script>
     <script src="{{ url_for('static', filename='js/readingTime.min.js') }}"></script>
     <script>$('.reader').readingTime();</script>
+    <script type="text/javascript">
+        mixpanel.track('Readability Page Opened');
+    </script>
 {% endblock %}

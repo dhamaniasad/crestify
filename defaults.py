@@ -1,33 +1,34 @@
-DEBUG = True
+DEBUG = False
 
-SECRET_KEY = 'insecure'
+SECRET_KEY = "insecure"
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://crestify:crestify@localhost/crestify'
+SQLALCHEMY_DATABASE_URI = "postgresql://crestify@localhost/crestify_db"
 
 SECURITY_REGISTERABLE = True
 SECURITY_RECOVERABLE = True
-SECURITY_EMAIL_SENDER = 'noreply@example.com'
-SECURITY_CONFIRMABLE = False
+SECURITY_EMAIL_SENDER = "noreply@crestify.com"
+SECURITY_CONFIRMABLE = True
 SECURITY_CHANGEABLE = True
-SECURITY_CHANGE_URL = '/manager/settings/changepassword'
-SECURITY_PASSWORD_HASH = 'bcrypt'
-SECURITY_PASSWORD_SALT = 'insecure'
-SECURITY_SEND_REGISTER_EMAIL = False  # Disable sending register email so we don't need SMTP
+SECURITY_CHANGE_URL = "/manager/settings/changepassword"
+SECURITY_PASSWORD_HASH = "bcrypt"
+SECURITY_PASSWORD_SALT = "insecure"
 
-MAIL_SERVER = 'smtp.mailserver.com'
+MAIL_SERVER = "smtp.mailserver.com"
 MAIL_PORT = 587
 MAIL_USE_SSL = False
-MAIL_USERNAME = 'admin@example.com'
-MAIL_PASSWORD = 'insecure'
+MAIL_USERNAME = "admin@example.com"
+MAIL_PASSWORD = "insecure"
 
-CELERY_BROKER_URL = 'amqp://'
-CELERY_IMPORTS = (["crestify.tasks.bookmark_tasks"])
-CELERY_ACCEPT_CONTENT = ['pickle']
+CELERY_BROKER_URL = "redis://"
+CELERY_IMPORTS = ["crestify.tasks.bookmark_tasks", "crestify.tasks.tracker"]
+CELERY_TASK_SERIALIZER = "pickle"
+CELERY_RESULT_SERIALIZER = "pickle"
+CELERY_ACCEPT_CONTENT = {"pickle"}
 
-CRESTIFY_UPLOAD_DIRECTORY = '/tmp/crestify/uploads'
+CRESTIFY_UPLOAD_DIRECTORY = "/tmp/crestify/uploads"
 
-WEB_SERVER_IP = '127.0.0.1'
+WEB_SERVER_IP = "127.0.0.1"
 
-MIXPANEL_PROJECT_TOKEN = ''
+MIXPANEL_PROJECT_TOKEN = ""
 
-HASHIDS_SALT = "&*6j3ji]/~B o38#y!a>X$$~x@8^n>v(*FJhjJ8*ok234"
+HASHIDS_SALT = "6:Vh3-N4]/~B o38#y!a>X$$~x@'>v(*FJhj43khk234"

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="/libs/bootstrap-3.3.4-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/popup-add.css">
+    <script type="text/javascript" src="/libs/jquery.min.js"></script>
+    <script type="text/javascript" src="/libs/bootstrap-3.3.4-dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/libs/selectize.js"></script>
+    <link rel="stylesheet" href="/libs/selectize.css">
+    <script type="text/javascript" src="/libs/require.min.js"></script>
+  </head>
+  <body>
+  <div class="alert alert-success hidden" id="logoutSuccessAlert" role="alert">Logout Successful!</div>
+  <div class="alert alert-success hidden" id="bookmarkUpdatedAlert" role="alert">Bookmark Updated!</div>
+  <div class="alert alert-success hidden" id="bookmarkDeletedAlert" role="alert">Bookmark Deleted!</div>
+    <span><a href="" id="readButton" class="hidden"><span class="glyphicon glyphicon-align-left"></span> Read </a>
+    <a href="#" id="trashButton"><span class="glyphicon glyphicon-trash"></span> Delete</a></span>
+    <a href="#" id="logoutButton"><span class="glyphicon glyphicon-log-out"></span> Logout</a></span>
+    <hr>
+    <form>
+      <div class="form-group" style="margin-bottom: 8px">
+        <input type="text" class="form-control selectized" id="tags" placeholder="Tags" value="">
+      </div>
+      <div class="form-group" style="margin-bottom: 0px">
+        <button type="submit" id="myButton" data-loading-text="Logging in..." class="btn btn-sm">Update</button>
+          <a href="#" id="contextButton" class="btn btn-link hidden"><span class="glyphicon glyphicon-new-window"></span> Context</a></span>
+      </div>
+    </form>
+    <script type="text/javascript" src="/js/add.js"></script>
+  </body>
+</html>

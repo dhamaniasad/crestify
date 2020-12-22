@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-'''Main Archiving Business Logic'''
+"""Main Archiving Business Logic"""
 from crestify.archivers import ArchiveOrgService, ArchiveTodayService, ArchiveException
 from crestify.models import db, Archive, Bookmark
 from datetime import datetime
@@ -7,17 +7,17 @@ from crestify.tasks import celery
 
 
 def do_archives(bookmark):
-    '''Takes an object of type Bookmark and creates archives for it'''
+    """Takes an object of type Bookmark and creates archives for it"""
     process_archive.delay(bookmark.id, ArchiveOrgService())
     process_archive.delay(bookmark.id, ArchiveTodayService())
 
 
-@celery.task(name='process_archive')
+@celery.task(name="process_archive")
 def process_archive(bookmark_id, archive_service):
-    '''
+    """
     Takes an object of Bookmark and ArchiveService
     and creates a corresponding archive
-    '''
+    """
     bookmark = Bookmark.query.get(bookmark_id)
     if bookmark is not None:
         archive = Archive()

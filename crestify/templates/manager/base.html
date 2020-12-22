@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     {% block head %}
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,7 +23,7 @@
             } catch (e) {
             }
         </script>
-        <link rel="stylesheet" href="{{url_for('static', filename='css/site.css')}}" >
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
         <title>
             {% block title %} {{ title }} {% endblock %} - Crestify
         </title>
@@ -71,21 +71,21 @@
                         <h3 class="panel-title" id="tags_panel_title">Tags</h3>
                     </div>
                     <div class="panel-body">
-                    {% if user_tags is not none %}
-                        {% for tag in user_tags %}
-                            {% if request.args.get('tags') != None %}
-                                <a class="text-muted"
-                                   href="{{ request.full_path + "&tags=" + tag['text'].decode('utf-8') }}">{{ tag['text'].decode('utf-8') }}</a>
-                                &nbsp;
-                            {% else %}
-                                <a class="text-muted"
-                                   href="{{ url_for('bookmark_list', tags=tag['text'].decode('utf-8')) }}">{{ tag['text'].decode('utf-8') }}
-                                    <span class="label label-default">{{ tag['count'] }}</span></a>
-                                &nbsp;
-                            {% endif %}
-                            <br />
-                        {% endfor %}
-                    {% endif %}
+                        {% if user_tags is not none %}
+                            {% for tag in user_tags %}
+                                {% if request.args.get('tags') != None %}
+                                    <a class="text-muted"
+                                       href="{{ request.full_path + "&tags=" + tag['text'] }}">{{ tag['text'] }}</a>
+                                    &nbsp;
+                                {% else %}
+                                    <a class="text-muted"
+                                       href="{{ url_for('bookmark_list', tags=tag['text']) }}">{{ tag['text'] }}
+                                        <span class="label label-default">{{ tag['count'] }}</span></a>
+                                    &nbsp;
+                                {% endif %}
+                                <br/>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             {% endblock %}
@@ -198,8 +198,7 @@ $(function () {
         $('html, body').animate({
             scrollTop: $(target).offset().top
         });
-    }
-    else {
+    } else {
 
     }
 });
@@ -210,11 +209,11 @@ $(function () {
     function startTour() {
         if (document.location.pathname === "/manager/bookmark") {
             hopscotch.startTour(tour);
-        }
-        else {
+        } else {
             window.location.href = "/manager/bookmark?tour=1";
         }
     }
+
     if (document.location.search === "?tour=1") {
         hopscotch.startTour(tour);
     }
