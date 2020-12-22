@@ -50,12 +50,12 @@ For manual install, see `INSTALL.md`.
 
 ### Tech Stack
 
-Crestify is a Flask-based application written in Python 2.
+Crestify is a Flask-based application written in Python 3.
 
-* Languages: Python 2 & Javascript (Extensions)
+* Languages: Python 3 & JavaScript
 * Framework: Flask
 * Database: Crestify uses PostgreSQL as its database, and takes advantage of the full-text search capabilities of Postgres. Redis is used as a temp database for holding incoming tab saves
-* Message Queue: RabbitMQ is used as a message queue for asynchronously-run tasks related to bookmarking
+* Message Queue: Redis is used as a message queue for asynchronously-run tasks related to bookmarking
 * Browser: Crestify uses PhantomJS to generate the DOM like a browser does for full-text extraction and readability view generation
 
 ### License
