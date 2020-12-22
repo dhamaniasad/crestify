@@ -13,7 +13,7 @@ def new(user_id, tabs, title):
     new_tabs.tabs = tabs
     new_tabs.added_on = datetime.datetime.utcnow()
     for tab in tabs:
-        if tab.has_key('title') and tab.has_key('url'):  # Each tab MUST have a title and a URL
+        if "title" in tab and "url" in tab:  # Each tab MUST have a title and a URL
             pass
         else:
             del new_tabs
@@ -42,13 +42,13 @@ def delete(id, user_id):
     try:
         delete_tabs = Tab.query.get(id)
     except:
-        print "exception"
+        print("exception")
         return False
     if delete_tabs:
         if delete_tabs.user == user_id:
             db.session.delete(delete_tabs)
             db.session.commit()
-            print "deleted"
+            print("deleted")
             return True
         else:
             return False

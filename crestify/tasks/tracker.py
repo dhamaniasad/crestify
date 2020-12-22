@@ -8,12 +8,15 @@ from datetime import datetime
 def track_mixpanel(userid, event):
     user = User.query.get(userid)
     bookmarks = Bookmark.query.filter_by(user=user.id, deleted=False).count()
-    mixpanel.people_set(user.id, {
-        "$first_name": user.first_name,
-        "$last_name": user.last_name,
-        "$email": user.email,
-        "$created": user.confirmed_at,
-        "bookmarks": bookmarks,
-        "last_activity": datetime.utcnow()
-    })
+    mixpanel.people_set(
+        user.id,
+        {
+            "$first_name": user.first_name,
+            "$last_name": user.last_name,
+            "$email": user.email,
+            "$created": user.confirmed_at,
+            "bookmarks": bookmarks,
+            "last_activity": datetime.utcnow(),
+        },
+    )
     mixpanel.track(userid, event)

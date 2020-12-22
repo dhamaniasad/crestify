@@ -22,12 +22,11 @@ def new(url, user_id, description=None, tags=None, title=None, added=None):
             new_bookmark.added_on = datetime.utcnow()
     new_bookmark.deleted = False
     if tags is not None:
-        tags = tags.split(',')
+        tags = tags.split(",")
         new_bookmark.tags = tags
         for tag in tags:
             # If tag is present, increment counter by one, or create if not present
-            get_tag = Tag.query.filter_by(text=tag,
-                                          user=user_id).first()
+            get_tag = Tag.query.filter_by(text=tag, user=user_id).first()
             if not get_tag:
                 new_tag = Tag(text=tag, user=user_id)
                 new_tag.count = 1
@@ -49,8 +48,7 @@ def delete(id, user_id):
         # If tags are present, we'll want to decrement their counts here
         if tags and len(tags) > 0:
             for tag in tags:
-                get_tag = Tag.query.filter_by(text=tag,
-                                              user=user_id).first()
+                get_tag = Tag.query.filter_by(text=tag, user=user_id).first()
                 if get_tag:
                     get_tag.count -= 1
         db.session.commit()
@@ -69,15 +67,14 @@ def edit(id, user_id, title=None, description=None, tags=None):
     if description is not None:
         edit_bookmark.description = description[:256]
     if tags != "" or tags is not None:
-        if type(tags) is unicode:
+        if type(tags) is str:
             ls1 = edit_bookmark.tags or []
-            ls2 = tags.split(',') or []
+            ls2 = tags.split(",") or []
             # Compute deltas between new and current tags
             added_tags = set(ls1 + ls2) - set(ls1)
             removed_tags = set(ls1 + ls2) - set(ls2)
             for tag in added_tags:
-                get_tag = Tag.query.filter_by(text=tag,
-                                              user=user_id).first()
+                get_tag = Tag.query.filter_by(text=tag, user=user_id).first()
                 if not get_tag:
                     new_tag = Tag(text=tag, user=user_id)
                     new_tag.count = 1
@@ -85,8 +82,7 @@ def edit(id, user_id, title=None, description=None, tags=None):
                 else:
                     get_tag.count += 1
             for tag in removed_tags:
-                get_tag = Tag.query.filter_by(text=tag,
-                                              user=user_id).first()
+                get_tag = Tag.query.filter_by(text=tag, user=user_id).first()
                 if not get_tag:
                     pass
                 else:
@@ -101,7 +97,7 @@ def api_edit(id, tags, user_id):
     ls2 = tags
     added_tags = None
     removed_tags = None
-    if tags != ['']:
+    if tags != [""]:
         if ls1:
             added_tags = set(ls1 + ls2) - set(ls1)
             removed_tags = set(ls1 + ls2) - set(ls2)
@@ -109,8 +105,7 @@ def api_edit(id, tags, user_id):
             added_tags = set(ls2)
         if added_tags:
             for tag in added_tags:
-                get_tag = Tag.query.filter_by(text=tag,
-                                              user=user_id).first()
+                get_tag = Tag.query.filter_by(text=tag, user=user_id).first()
                 if not get_tag:
                     new_tag = Tag(text=tag, user=user_id)
                     new_tag.count = 1
@@ -123,8 +118,7 @@ def api_edit(id, tags, user_id):
         edit_bookmark.tags = []
     if removed_tags:
         for tag in removed_tags:
-            get_tag = Tag.query.filter_by(text=tag,
-                                          user=user_id).first()
+            get_tag = Tag.query.filter_by(text=tag, user=user_id).first()
             if not get_tag:
                 pass
             else:
