@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:10.11
+    ports:
+      - "11375:5432"
+    environment:
+      - POSTGRES_DB=crestify_db
+      - POSTGRES_USER=crestify
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  redis:
+    image: redis
+    command: bash -c "redis-server --appendonly yes"
+    ports:
+      - "16589:6379"
+    volumes:
+      - redis-data:/data
+  search:
+    image: elasticsearch:7.10.1
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms750m -Xmx750m
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+  web:
+    build: .
+    command: bash -c "python main.py db upgrade && python main.py runserver --host 0.0.0.0"
+    environment:
+      - CRESTIFY_CONFIG_FILE=../docker_override.py
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+      - redis
+      - search
+  worker:
+    build: .
+    command: celery -A crestify.tasks.celery worker -n worker1 --loglevel=info --uid=nobody --gid=nogroup
+    environment:
+      - CRESTIFY_CONFIG_FILE=../docker_override.py
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+volumes:
+  postgres-data:
+    driver: local
+  elastic-data:
+    driver: local
+  redis-data:
+    driver: local

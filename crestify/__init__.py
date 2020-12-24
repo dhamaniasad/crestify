@@ -65,5 +65,12 @@ def initialize_index():
     Bookmark.reindex()
 
 
+@manager.command
+def create_index():
+    from crestify.models import Bookmark
+
+    Bookmark.create_index()
+
+
 if app.config["DEBUG"]:
     toolbar = DebugToolbarExtension(app)

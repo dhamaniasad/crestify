@@ -3,6 +3,12 @@ from crestify import elastic_search_engine
 from elasticsearch_dsl import Search
 
 
+def create_index(index, model):
+    if not elastic_search_engine:
+        return
+    elastic_search_engine.indices.create(index=index.lower(), ignore=400)
+
+
 def add_to_index(index, model):
     if not elastic_search_engine:
         return

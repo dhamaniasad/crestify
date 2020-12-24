@@ -8,7 +8,12 @@ from flask_migrate import Migrate, MigrateCommand
 from crestify import manager
 from sqlalchemy.dialects import postgresql
 
-from crestify.services.search import add_to_index, query_index, remove_from_index
+from crestify.services.search import (
+    add_to_index,
+    query_index,
+    remove_from_index,
+    create_index,
+)
 
 # Setup SQLAlchemy
 db = SQLAlchemy(app)
@@ -55,6 +60,11 @@ class SearchableMixin(object):
     def reindex(cls):
         for obj in cls.query:
             add_to_index(cls.__tablename__, obj)
+
+    @classmethod
+    def create_index(cls):
+        for obj in cls.query:
+            create_index(cls.__tablename__, obj)
 
 
 def index_all_bookmarks():

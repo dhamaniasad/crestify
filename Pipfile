@@ -39,6 +39,7 @@ email-validator = "*"
 python-dotenv = "*"
 flask-security-too = "*"
 elasticsearch-dsl = "<8.0.0,>=7.0.0"
+flask-script = "*"
 
 [dev-packages]
 pipdeptree = "*"

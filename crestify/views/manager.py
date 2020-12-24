@@ -78,8 +78,10 @@ def bookmark_list():
 
     query = None
 
+    print("search form query data: ", search_form.query)
+
     # This means that the search form has been used
-    if search_form.query.data is not None:
+    if search_form.query.data:
         # Search query type can be either basic, full text, or url
         # This is basic search, which searches in the bookmark titles and descriptions
         if search_form.parameter.data == "basic":
