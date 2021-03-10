@@ -46,7 +46,7 @@ pytz==2017.2
 raven==5.7.0
 readability-lxml==0.5
 redis==2.10.3
-requests==2.4.3
+requests==2.20.0
 selenium==2.44.0
 shortuuid==0.4.2
 six==1.8.0
