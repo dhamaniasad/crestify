@@ -8,10 +8,16 @@
 ### Works On
 <img width="222" alt="Supported Browsers" src="https://user-images.githubusercontent.com/4560482/110683989-9ec22080-8202-11eb-8075-bdb987cbae91.png">
 
-
 ### About
 
-Crestify is a self-hosted bookmarking service that does it all. There are a lot of bookmarking services out there today, and all of them do one thing or the other. With Crestify, you get the whole package. 
+Crestify is the open source, self-hostable swiss army knife of bookmarking services. There are a lot of bookmarking services out there today, and all of them do one thing or the other. With Crestify, you get the whole package. 
+
+See the product comparison below for details:
+
+<img width="1007" alt="Feature Comparison" src="https://user-images.githubusercontent.com/4560482/110685624-7dfaca80-8204-11eb-8525-4a21d419a722.png">
+<img width="992" alt="Feature Comparison" src="https://user-images.githubusercontent.com/4560482/110685865-bb5f5800-8204-11eb-94ae-f3d0985d7ea3.png">
+
+_Keep your online life in one place, not all over the place._
 
 #### Features
 
@@ -31,6 +37,8 @@ And best of all, Crestify is fully open source, so you can host your own instanc
 
 ### Quick Start
 
+**NOTE: These instructions will be updated with a greatly simplified installation process soon**
+
 To get started with Crestify, try out our Vagrant image!
 
 ```bash
@@ -44,7 +52,6 @@ $ fab vagrant_init
 That's it! Open your browser, head to `http://localhost:4545`, create an account, and you'll be good to go!
 
 To get the latest updates to Crestify, run:
-<img width="236" alt="Screenshot 2021-03-11 at 12 41 51 AM" src="https://user-images.githubusercontent.com/4560482/110683932-94a02200-8202-11eb-9da1-6673983c5531.png">
 
 ```bash
 fab update
