@@ -31,7 +31,7 @@ gunicorn==19.1.1
 hashids==1.1.0
 honcho==0.6.6
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 kombu==3.0.37
 lxml==3.4.4
 Mako==1.0.0
