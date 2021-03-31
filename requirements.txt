@@ -33,7 +33,7 @@ honcho==0.6.6
 itsdangerous==0.24
 Jinja2==2.10
 kombu==3.0.37
-lxml==3.4.4
+lxml==4.6.3
 Mako==1.0.0
 MarkupSafe==1.0
 packaging==16.8
