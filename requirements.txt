@@ -34,7 +34,7 @@ itsdangerous==0.24
 Jinja2==2.10
 kombu==3.0.37
 lxml==3.4.4
-Mako==1.0.0
+Mako==1.2.2
 MarkupSafe==1.0
 packaging==16.8
 passlib==1.6.2
